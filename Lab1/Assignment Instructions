@@ -1,0 +1,173 @@
+Purpose
+This programming assignment exercises how to construct abstract data types through implementing a Rational class in C++. It also reviews type conversions for classes, operator overloading, and input/output including the friend concept.
+
+Overview of Rational Class
+The Rational class presents rational number in numerator and denominator. For instance, Rational r(4, 3) means 4/3. The Rational class you will design should have the following features, which are additions to the existing Rational class in rat files. 
+
+ 
+
+Member functions
+Provide the following two member functions:
+getNumerator
+returns the numerator data member of this Rational number.
+getDenominator
+returns the denominator data member of this Rational number.
+Math operators
+The class must implement binary arithmetic operations such as addition, subtraction, multiplication, and division.
+Addition
+Add two objects. 
+Subtraction
+Subtract the 2nd object from the 1st one.
+Multiplication
+Multiply the left-hand-side object by the right-hand-side Rational and return a Rational object.
+Division
+Divide the 1st object by the 2nd one and return a Rational-type value. Division by zero returns the 1st object without change and print error message
+Comparison
+The class must implement ==, !=, <, <=, >, and >=
+Assignment
+The class must implement +=
+Stream I/O
+The class must implement the << and >> operators:
+Input
+Take two values as a numerator and an denominator value. 
+Output
+The format will be: X/Y, where X and Y are a numerator and denominator value respectively. Of course, if X is 0, it should displayed as 0. (not 0/denominator). If Y is 0, it should not be displayed (provide error message).
+Statement of Work
+Download rat.h rat.cpp and ratdriver.cpp files and modify programs so that rat.h files include the above functions described. (The final output will be the combination of rat and rat2 files)
+
+1. Make a lab1 directory and go to the folder
+
+mkdir lab1
+
+cd lab1
+
+2. Download rat.h, rat.cpp, and ratdriver.cpp files 
+
+(option 1) Download them directly from the web to your linux folder 
+
+wget http://courses.washington.edu/css342/zander/Code/rat.h ./
+
+wget http://courses.washington.edu/css342/zander/Code/rat.cpp ./
+
+wget http://courses.washington.edu/css342/zander/Code/ratdriver.cpp ./
+
+ 
+
+(option 2) Download them from the Files-->Lab/Lab1 folder
+
+3. Add the specified functions described above in the rat.h, and rat.cpp. 
+
+4. Make a new driver file, name it as "revisedDriver.cpp" and compile it with your new rat.cpp files.
+
+g++ rat.cpp revisedDriver.cpp
+
+./a.out
+
+ 
+
+revisedDriver.cpp will include the following main()function, which will be used for grading your lab work.
+
+ 
+
+#include "rat.h"
+
+// to compile under unix: g++ rat.cpp revisedDriver.cpp
+
+int main() {
+
+/* Testing old rat files*/
+Rational x(-2,6), y(-14,-16), z, w(4), copy(x);
+
+x.printRational(); cout << " + "; y.printRational();
+
+z = x.add(y);
+cout << " = "; z.printRational(); cout << endl;
+z.printRational();
+cout << " = "; z.printRationalAsFloat(); cout << endl << endl;
+
+cout<<"z = "<<z<<endl;
+
+x.printRational(); cout << " - "; y.printRational();
+z = x.subtract(y);
+cout << " = "; z.printRational(); cout << endl;
+z.printRational();
+cout << " = "; z.printRationalAsFloat(); cout << endl << endl;
+
+x.printRational(); cout << " * "; y.printRational();
+z = x.multiply(y);
+cout << " = "; z.printRational(); cout << endl;
+z.printRational();
+cout << " = "; z.printRationalAsFloat(); cout << endl << endl;
+
+x.printRational(); cout << " / "; y.printRational();
+z = x.divide(y);
+cout << " = "; z.printRational(); cout << endl;
+z.printRational();
+cout << " = "; z.printRationalAsFloat(); cout << endl;
+
+/* Testing additional methods defined */
+cout<<"Now test additional methods defined"<<endl;
+cout<<"getNumerator:"<<x.getNumerator()<<" getDenominator:"<<x.getDenominator()<<endl;
+
+
+cout << "The copy object looks just like its parameter, copy = " << copy<< endl;
+z = x + y;
+cout << x << " + " << y << " = " << z << endl;
+
+z = w + y;
+cout << w << " + " << y << " = " << z << endl;
+
+z = x - y;
+cout << x << " - " << y << " = " << z << endl;
+
+z = x * y;
+cout << x << " * " << y << " = " << z << endl;
+
+z = x / y;
+cout << x << " / " << y << " = " << z << endl;
+
+z = x + 5;
+cout << x << " + " << 5 << " = " << z << endl;
+
+//ERROR -- no match for operator +(int, class Rational)
+// z = 5 + x;
+
+z = Rational(5) + x;
+cout << 5 << " + " << x << " = " << z << endl;
+
+//ERROR -- no match for operator -(class Rational, class Rational)
+// z -= x;
+
+ 
+
+cout<< "get values for z"<<endl;
+cin>>z;
+
+ 
+
+cout << x << " is:" << endl;
+
+cout << ((x > y) ? " > " : " not > ");
+cout << y << " according to the overloaded > operator\n";
+
+cout << ((x < y) ? " < " : " not < ");
+cout << y << " according to the overloaded < operator\n";
+
+cout << ((x >= y) ? " >= " : " not >= ");
+cout << y << " according to the overloaded >= operator\n";
+
+cout << ((x <= y) ? " <= " : " not <= ");
+cout << y << " according to the overloaded <= operator\n";
+
+cout << ((x == y) ? " == " : " not == ");
+cout << y << " according to the overloaded == operator\n";
+
+cout << ((x != y) ? " != " : " not != ");
+cout << y << " according to the overloaded != operator" << endl;
+
+cout << x << " + " << y;
+x += y;
+cout << " = the now changed " << x << endl;
+
+return 0;
+}
