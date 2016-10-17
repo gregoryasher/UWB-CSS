@@ -1,0 +1,96 @@
+Sorting - Quicksort
+ 
+Purpose
+In this lab, you will practice  quicksort by arranging its algorithm to find the top k items, the bottom k items, and the median.
+
+ 
+
+Partial Sorting
+Sometimes we are interested in a partially sorted data set. For example, we might need to know the top 10 best sellers, the 20 highest-grossing movies, or the top 10% students by GPA. These partial sets can be obtained without completing quicksort on an entire data set, in other words, just by performing quicksort for the first several partitions in a particular range.
+
+ 
+
+Statement of Work
+This lab consists of three questions related to quicksort. You do not have to solve the three of them!  You are required to solve only one.  This will be based on your student ID number...
+
+How to figure out which problem to solve?
+
+Use the following formula:
+
+(1) Let your StudentID number be N; and
+
+(2) calculate the remainder of N / 3, (say Q = N % 3).
+
+For example, if your StudentID number is 1234567, then the question you need to solve is Q= 1234567%3 = 1
+
+Solve the question corresponding to your Q value:
+
+Q = 0: Finding the top k items while the rest of the vector remains unsorted. e.g. Given a random vector, [9, 3, 6, 7, 8, 1, 2], and given k is 3, then you will have a vector that contains [1, 2, 3, 9, 7, 6, 8]. Note this example should not be used for testing but it is to show you what should happen. 
+Q = 1: Finding the bottom k items while the rest of the vector remains unsorted. e.g.Given a random vector, [9, 3, 6, 7, 8, 1, 2], and given k is 3, then you will have a vector that contains [6, 3, 1, 2, 7, 8, 9]. Note this example should not be used for testing but it is to show you what should happen. 
+Q = 2: Finding the top median items and the rest half of the vector remains unsorted. e.g.Given a random vector, [9, 3, 6, 7, 8, 1, 2], and given k is 3, then you will have a vector that contains [1, 2, 3, 6, 9, 7, 8]. Note this example should not be used for testing but it is to show you what should happen. 
+Your partial quicksort function has the prototype shown below:
+void partialsort( vector<int> &items, int k );
+// where "items" is an array to sort, and k means the top k or bottom k.
+// if your problem is to find the median, no need of the 2nd argument, k.
+Use the following driver program for your verification. Note that you still need to modify the main( ) function so as to receive correct arguments and to print out your results. Hint: download quicksort.cppPreview the documentView in a new window and modify the function of quicksort( vector<Comparable> &a, int first, int last )
+
+#include <vector>
+#include <iostream>
+#include <stdlib.h>
+#include "partialsort.cpp"
+using namespace std;
+
+// initialize a given array with random numbers.
+void initArray( vector<int> &array, int randMax ) {
+  int size = array.size( );
+
+  for ( int i = 0; i < size; ) {
+    int tmp = ( randMax == -1 ) ? rand( ) : rand( ) % randMax;
+    bool hit = false;
+    for ( int j = 0; j < i; j++ ) {
+      if ( array[j] == tmp ) {
+        hit = true;
+        break;
+      }
+    }
+    if ( hit )
+      continue;
+    array[i] = tmp;
+    i++;
+  }
+}
+
+int main( int argc, char* argv[] ) {
+  // verify arguments. if you find the median, no need of topK where argc == 2
+  if ( argc != 3 ) {
+    cerr << "usage: ./a.out size topK" << endl;
+    return -1;
+  }
+
+  // verify an array size
+  int size = atoi( argv[1] );
+  if ( size <= 0 ) {
+    cerr << "array size must be positive" << endl;
+    return -1;
+  }
+
+  // verify top/bottom k. if you find the median, no need of the next 4 lines
+  int topK = atoi( argv[2] );
+  if ( topK <= 0 ) {
+    cerr << "topX must be positive" << endl;
+    return -1;
+  }
+
+  // array generation
+  srand( 1 );
+  vector<int> items( size );
+  initArray( items, size );
+
+
+  // partial quicksort. if you find the median, no need of the 2nd argument.
+  partialsort( items, topK );
+
+  // print out the results here
+
+  return 0;
+}
