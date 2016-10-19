@@ -1,0 +1,87 @@
+Topic: Algorithm Analysis
+ 
+
+Purpose
+This programming assignment empirically analyzes the worst-case performance of the Euclidean algorithm for finding the greatest common divisor of two nonnegative integers. You will code this program, plot its running times, and validate if your output is upper-bound to a given function.
+
+ 
+
+The Euclidean Algorithm
+The Euclidean algorithm computes the greatest common divisor (gcd) of two positive integers A and B, based on the observation gcd( A, B ) is equivalent to gcd( B, A mod B ). In other words, given two positive integers, their gcd is computed by repetitions of the following three statements: R = A mod B; A = B; B = R; until B becomes 0. 
+
+For example, to find the gcd of 270 and 192, 
+
+gcd(270,192) = gcd(192,78) = gcd(78,36) = gcd(36,6) = gcd(6,0) = 6
+
+That is, gcd(270, 192) = 6.
+
+ https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm (Links to an external site.)
+
+The worse-case performance is log3/22n/3 modulus operations required for computing the gcd of two integers in the range 1 to n, where n >= 8.
+
+ 
+
+Statement of Work
+Part 1 
+1. Write a program that reads the integer n (n should be larger than 8) and measures the maximum number of modulus operations to compute the gcd of two integers in the range 8 to n.
+
+Your program must print out the following data:
+
+(1) at each i from 8 until n, print the combination of two integers a, b within 1 through i, that incurs the maximum number of modulus operations.  In other words: For every b between 8 and 15, there will be a set of corresponding a's going between 1 and b.
+
+(2) the gcd of these two integers a and b; and
+
+(3) the modulus operations to obtain this gcd of a and b.
+
+ 
+
+For example, if n=15;
+
+then you have to print out the followings:
+
+========================================================
+
+At i=8; gcd (5,8) = 1 took 4 modulus operations
+
+At i=9; gcd (5,8) = 1 took 4 modulus operations
+
+At i=10; gcd (5,8) = 1 took 4 modulus operations
+
+At i=11; gcd (5,8) = 1 took 4 modulus operations
+
+At i=12; gcd (5,8) = 1 took 4 modulus operations
+
+At i=13; gcd (8, 13) = 1 took 5 modulus operations
+
+At i=14; gcd (8, 13) = 1 took 5 modulus operations
+
+At i=15; gcd (8, 13) = 1 took 5 modulus operations
+
+========================================================
+
+ 
+
+2. Plot the maximum number of modulus operations as increasing n from 8 to 3,000 in a graph. You don't have to plot such number every increment of n. Choose an appropriate increment of n to view the growth of modulus operations.
+
+ 
+
+3. Plot log3/22n/3 in the same graph and compare your empirical data with this worse-case function. Are your empirical outputs always below this Big-O? Use the following formula to compute log3/22n/3:
+
+   logaB = log10B / log10a
+If you don't have a calculator that computes log10, use the linux calculator.
+
+ 
+
+Part 2
+Measure the total running time of your program itself. For this purpose, you should use the following linux system function:
+   #include <sys/time.h>
+   int gettimeofday( struct timeval *tv, struct timezone *tz );
+The second argument to this function must be NULL. To understand the usage of this function, type man gettimeofday from the linux shell prompt.
+ 
+
+Estimate the Big-O of your program using plots: record the actual growth time of your program with increasing n, and define it as T(n),  i.e., time your program. In other words, time and collect the data for each i, for example:
+At i=14; gcd (8, 13) = 1 took 5 modulus operations time = 7ms
+
+where the i is going to be the x-axis, and the time the y-axis.
+
+Then, using the table and plots in slide p13 from this set of slides, estimate the Big-Oh function of T(n). Define the estimated Big-O function as F(n). Verify your estimation is correct by showing T(n)/F(n) is (or nearly) constant, i.e., T(n)/F(n) <= c, where c is a constant.   Remember, one of the goals of this assignment is to experimentally determine the Big-Oh (and visualize the program's behaviour through the plots).
