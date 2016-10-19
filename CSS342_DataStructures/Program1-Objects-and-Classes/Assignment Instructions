@@ -1,0 +1,160 @@
+Topic: Objects and Classes 
+
+Example: Please refer rational class for an example: (The better class, rat2.h, rat2,cpp)
+
+http://courses.washington.edu/css342/zander/code.html (Links to an external site.)
+
+ 
+
+Goal
+
+This programming assignment exercises how to construct abstract data types through implementing a complex class in C++. It also reviews operator overloading, and input/output including the friend concept.
+
+  
+
+Overview of complex Class
+
+The complex class presents the complex number X+Yi, where X and Y are real numbers and  i^2 is -1. Typically, X is called a real part and Y is an imaginary part of the complex number. For instance, complex(4.0, 3.0) means 4.0+3.0i. The complex class you will design should have the following features. 
+
+ 
+
+Constructor
+
+Only one constructor with default value for Real = 0.0, Imaginary = 0.0; But it should construct the Complex numbers with, 1) no argument, 2) 1 argument, 3) 2 arguments. Please refer the rat2.h file and rat2.cpp.
+
+ 
+
+Data members
+
+The Complex has two members which should be real values. For example, x+yi, Real = x, Imaginary = y.
+
+ 
+
+Member functions
+
+Provide the following two member functions:
+
+getReal
+
+returns the real part of the complex.
+
+getImaginary
+
+returns the imaginary part of this complex number.
+
+Math operators
+
+The class must implement binary arithmetic operations such as addition, subtraction, multiplication, and division. You should be able to use operators (+, -, *, /).
+
+ 
+
+Addtion (+)
+
+Add two objects. For example, (a+bi) + (c+di) = (a+c) + (b+d)i  
+
+ 
+
+Subtraction(-)
+
+Perform complex minus operation
+
+ 
+
+Multiplication(*)
+
+Multiply the left-hand-side object by the right-hand-side and return Complex object.
+
+ 
+
+Division(/)
+
+Divide the left-hand-side object by the right-hand-side object. You have to know the division of complex numbers. Divide by zero error should be handled in this method. That is, print an error message, and return the original one. Since it is an exception error, should not affect the following tasks. (Same for /= method)
+
+ 
+
+Conjugate
+
+The complex conjugate of the complex number z = x + yi is defined to be x − yi. This function returns the conjugate of the input complex.
+
+ 
+
+Comparison
+
+The class must implement ==. !=.
+
+Assignment
+
+The class must implement +=, -=, *= and /=. (Divide by zero error should be handled in /= method.)
+
+Stream I/O
+
+The class must implement the << and >> operators:
+
+Input
+
+Take two values as a real and imaginary value.
+
+Output
+
+The format will be: X+Yi, where X and Y are a Real and Imaginary value respectively. Of course, if either X or Y is 0, it should not be displayed. However, if both X and Y are 0, the output should be 0. Also note that if X is 1, it should be printed out as 1, and that if Y is 1, its output should be i. Wrong examples: 1+0 i, 0+2i, 1i, etc..In the case of Y be negative, it should not have “+” between the two. For example, print 2-3i, instead of 2+-3i.
+
+ 
+
+Statement of Work
+
+Design and implement a complex class according to the specification outlined below. The following is the main() function that will test the code. This driver file is in the Files-->Programs/Program1/complexDriver.cppPreview the documentView in a new window . 
+
+#include <iostream>
+#include "complex.h"
+
+using namespace std;
+int main( ) {
+
+complex c1, c2( 1.2, 4.9 ), c3( 2.2, 1.0 ), c4( -7.0, 9.6 ), c5(8.1, -4.3), c6(0.0, -7.1), c7(6.4), c8(0.0, 1.0), c9(0.0, 4.1), c10(0.0, -1.0), c11;
+
+cout << "type two doubles for c11: ";
+cin >> c11;
+
+cout << "c1 = " << c1 << endl;
+cout << "c2 = " << c2 << endl;
+cout << "c3 = " << c3 << endl;
+cout << "c4 = " << c4 << endl;
+cout << "c5 = " << c5 << endl;
+cout << "c6 = " << c6 << endl;
+cout << "c7 = " << c7 << endl;
+cout << "c8 = " << c8 << endl;
+cout << "c9 = " << c9 << endl;
+cout << "c10 = " << c10 << endl;
+cout << "c11 = " << c11 << endl;
+
+cout << "c1 + c2 + c3 = " << c1 + c2 + c3 << endl;
+cout << "c7 - c8 - c9= " << c7 - c8 -c9<< endl;
+cout << "c2 * 22 = " << c2 * 22 << endl;
+cout << "c2 * c3 = " << c2 * c3 << endl;
+cout << "c2 / c3 = " << c2 / c3 << endl;
+cout << "c2 / c1 = " << c2 / c1 << endl;
+cout << " c2 / c5 = " << c2 / c5 << endl;
+
+
+cout << "c4 == c4 is " << ( ( c4 == c4 ) ? "true" : "false" ) << endl;
+cout << "c4 != c4 is " << ( ( c4 != c4 ) ? "true" : "false" ) << endl;
+
+cout<< "Conjugate of" << c5 << " is " << c5.conjugate()<<endl;
+cout<< "Real of" << c3 << " is " << c3.getReal()<<endl;
+cout<< "Imaginary of" << c4 << " is " << c4.getImaginary()<<endl;
+
+cout << "(c5 += c2) += c3 is " << ( (c5 += c2) += c3 ) << endl;
+cout << "(c5 -= c1) -= c2 is " << ( (c5 -= c1) -= c2 ) << endl;
+cout << "(c5 *= 22) *= 13 is " << ( (c5 *= 22) *= 13 ) << endl;
+cout << "(c5 *= c4) *= c4 is " << ( (c5 *= c4) *= c4 ) << endl;
+cout << "(c3 /= 2) / c3 is " << ( (c3 /= 2 ) / c3 ) << endl; 
+cout << "c4 is " << c4 << endl; 
+cout << "(c4 /= c1) / c1 is " << ( (c4 /= c1 ) / c1 ) << endl; 
+cout << "c4 is " << c4 << endl; 
+}
+
+ 
+
+Deliveries
+
+Clearly state in your code comments any other assumptions you have made. Assumptions about complex members are placed in the class definition (.h file). 
