@@ -1,0 +1,133 @@
+Purpose
+This laboratory work implements and evaluates the performance of an MTF (move-to-front) list and a transpose list by modifying the find function of a doubly linked list.
+
+MTF List
+The purpose of MTF lists is to place the most recently used item to the top (front) of a list, and thus the least recently used item will eventually move to the tail. Given more "find" operations than "delete" or "insert", MTF alleviates the cost of locating items that need to be frequently accessed. The algorithm is implemented below in the find( ) method:
+
+template<class Object>
+int MtfList<Object>::find( const Object &obj ) {
+  DListNode<Object> *top = DList<Object>::header->next;
+  DListNode<Object> *found = top;
+
+  for ( ; found != NULL && found->item != obj;  found = found->next )
+    ++DList<Object>::cost;
+
+  if ( found == NULL )
+    return -1; // not found
+
+  if ( found == top )
+    return 0;  // no need to move to front     
+
+  // remove found from the current position
+  // insert found between header and top
+
+  return 0;
+    
+}
+Transpose (Reorder) List
+The purpose of transposing a list is to swap the most recently used item with its neighbor, which would be closer to the top (front of the list).  The more frequently accessed items will move closer to the top. Eventually, all the list's items will be ordered in based on their access frequency. The algorithm is implemented in find( ) as follows:
+
+template<class Object>
+int TransposeList<Object>::find( const Object &obj ) {
+  DListNode<Object> *found = DList<Object>::header->next;
+
+  int i = 0;
+  for ( ; found != NULL && found->item != obj;  found = found->next, ++i )
+    ++DList<Object>::cost;
+
+  if ( found == NULL )
+    return -1; // not found
+
+  if ( found == DList<Object>::header->next )
+    return 0;  // no need to swap
+
+  // remove found from the current position
+  // insert found before previous
+
+  return i;
+}
+ 
+Statement of Work
+Part 1: MTF List
+
+1. Download and include the following files in your project:
+
+mtflist.hPreview the documentView in a new window: an MTF list's header file
+driver.cppPreview the documentView in a new window: a main program
+dlist.hPreview the documentView in a new window: a doubly-linked list's header file
+dlist.cpp.hPreview the documentView in a new window: a doubly-linked list's template implementation file. (Note that a template is regarded as a header.)
+Your task is to design and implement mtflist.cpp.h 
+
+2. Implement mtflist.cpp.h. Use all of those files above for your mtflist.cpp.h design. As shown below, your MTF class is derived from the dlist class. Inheritance will be covered in detail later, so for now, you don't have to worry about it too much. Just focus on designing the find( ) function in mtflist.cpp.h
+
+#ifndef MTFLIST_H
+#define MTFLIST_H
+#include <iostream>
+#include "dlist.h"
+
+using namespace std;
+
+template<class Object>
+class MtfList : public DList<Object> {
+ public:
+  int find( const Object &obj );
+};
+
+#include "mtflist.cpp.h"
+#endif
+
+NOTE: Whenever you use variables such as header and cost (that are defined in dlist.h), add DList<Object>:: in front of those variables. This notation is necessary for the template!
+
+3.   Make sure your file name is "mtflist.cpp.h" rather than "mtflist.cpp" so that the compiler does not actually compile template files. The compiler should compile only driver.cpp
+
+4.   Execute your program to see the correctness of your design.
+
+ 
+
+Part 2: Transpose List
+
+Copy the following files into your directory. 
+transposelist.hPreview the documentView in a new window: an transpose list's header file
+driver.cppPreview the documentView in a new window: a main program
+dlist.hPreview the documentView in a new window: a doubly-linked list's header file
+dlist.cpp.hPreview the documentView in a new window: a doubly-linked list's template implementation file
+Implement transposelist.cpp.h. Use all the above for your transposelist.cpp.h design. As shown below, your transpose list is derived from the dlist class. Again, focus on designing the find( ) function in transposelist.cpp.h
+#ifndef TRANSPOSELIST_H
+#define TRANSPOSELIST_H
+#include <iostream>
+#include "dlist.h"
+
+using namespace std;
+
+template<class Object>
+class TransposeList : public DList<Object> {
+ public:
+  int find( const Object &obj );
+};
+
+#include "transposelist.cpp.h"
+#endif
+Make sure your file name is "transposelist.cpp.h" rather than "transposelist.cpp" so that the compiler does not actually compile template files. The compiler should compile only driver.cpp
+Execute your program to verify the correctness of your design.
+Part 3: Performance Evaluation
+
+Copy statistics.cppPreview the documentView in a new window to your project:
+Make sure that all of the following files exist in your directory:
+dlist.hPreview the documentView in a new window
+dlist.cpp.hPreview the documentView in a new window
+mtflist.hPreview the documentView in a new window
+mtflist.cpp.h
+transposelist.hPreview the documentView in a new window
+transposelist.cpp.h
+statistics.cppPreview the documentView in a new window
+Compile statistics.cpp. All the others are header files, and thus automatically read into statistics.cpp when it is compiled.
+Execute this statistics program to compare the performance among the doubly-linked list, the mtf list, and the transpose list. The argument should be 1000.
+Eclipse Run Configuration: type 1000 in the Arguments box
+
+Linux Command Line:
+[mfukuda@perseus]$ ./a.out 1000
+
+Note that this statistics program works as follows:
+initializes 1000 integers with rand numbers, which are inserted in a list,
+picks up only 10 items out of those,
+accesses each item of those 10 with a probability of (its index + 1) / 45,
