@@ -1,0 +1,90 @@
+Purpose
+This laboratory work modifies the original calculator program so as to accept binary C++ operators including (   )    *   /    %    -    +    <<    >>    <     <=    >    >=     ==    !=   &    ^     |    &&     and ||
+How to test:
+
+Put all the files into a folder, then g++ driver.cpp
+
+./a.out
+
+(5+4)*3 - 2^2*4
+
+If you get the result as 11, then it is working.
+
+===========================================
+
+This calculator accepts only five binary operators such as *, /, -, + and ^ as well as parentheses ( and ).
+
+Note that ^ means the exponentiation operator rather than bit exclusive OR (XOR) in C++.  For this lab, we are not going to implement the XOR operator, so make sure that you update evaluator.h to reflect the fact that ^ is exponentiation and change its precedence value (e.g., ^ has higher precedence than *).
+
+To add more C++-based binary operators, you must modify the following portions of the program:
+
+evaluator.cpp.h's binaryOp( ): modify it so as to compute additional arithmetic operations. To be more specific, add "else if" statements to compute these operations:
+  if ( topOp == EXP )
+    ...
+  else if ( topOp == NEWOP )                          // add this line
+    postFixStack.push_back( arithmetic_operation )    // add this line
+evaluator.h's PREC_TABLE[]: add new arithmetic operators' precedence in the PREC_TABLE[] array:
+template 
+class Evaluator {
+ public:
+  Evaluator( const string &s ) : str( s ) { // constructor receives an exp
+    opStack.push_back( EOL );
+    PREC_TABLE[0].inputSymbol = 0;   // EOL
+    PREC_TABLE[0].topOfStack =  -1;
+    PREC_TABLE[1].inputSymbol = 0;   // VALUE
+    PREC_TABLE[1].topOfStack =  0;
+    PREC_TABLE[2].inputSymbol = 100; // OPAREN
+    PREC_TABLE[2].topOfStack =  0;
+    ...
+    // add the following lines as necessary
+    PREC_TABLE[x].inputSymbol = y;  // x is the index for a new operator
+    PREC_TABLE[x].topOfStack =  z;  // y and z are precedences for the operator
+    ...
+  }
+  NumericType getValue( );                 // Do the evaluation                
+
+ private:
+  Precedence PREC_TABLE[n];         // change n as necessary
+token.h's TokenType: add new arithmetic operators: The order has to match with PREC_TABLE[x]. That is, it should be in the x th location in TokenType.
+enum TokenType { EOL, VALUE, OPAREN, CPAREN, EXP, MULT, DIV, PLUS, MINUS,
+                 LT, LE, GT, GE, ... }; // new operators
+tokenizer.cpp.h's getToken( ): add more case statements, each corresponding to a new operator:
+   if ( getChar( ch ) == true ) {
+    switch( ch ) {
+    case '^': return EXP;
+    case '/': return DIV;
+    case '*': return MULT;
+    case '(': return OPAREN;
+    case ')': return CPAREN;
+    case '+': return PLUS;
+    case '-': return MINUS;
+    case '<': return LT;          // return LT when encoutering '<'
+    ...                           // add more!!
+    default:
+      in.putback( ch );
+      if ( !( in >> theValue ) ) {
+        cerr << "Parse error" << endl;
+        return EOL;
+      }
+      return Token( VALUE, theValue );
+    }
+  }
+For C++ operator precedence, refer to http://www.cppreference.com/operator_precedence.html (Links to an external site.)
+
+Statement of Work
+Your laboratory work focuses on evalutor.cpp.h and tokenizer.cpp.h. All the other minor modifications have been done in the following zip files: cpp_evaluator1.zipView in a new window
+
+Unzip all files from cpp_evaluator1.zipView in a new window to your project. Note that evalutor.cpp.h and tokenizer.cpp.h are not complete, because those files are key answer.
+Modify evalutor.cpp.hPreview the documentView in a new window and tokenizer.cpp.hPreview the documentView in a new window as instructed above, so that your evaluator can accept binary C++ operators including (, ), *, /, %, -, +, <<, >>, <, <=, >, >=, ==, !=, &, ^, |, &&, and ||. Be careful about the following cases:
+If tokenizer.cpp.h encounters '<', you must read one more character to identify '<<', '<' or '<='.
+Similarly, if tokenizer.cpp.h finds '>', you must read one more character to identify '>>', '>' or '>='.
+upon encountering '|', read one more character to identify '|' or '||'.
+upon encountering '&', read one more character to identify '&' or '&&'.
+upon encountering '=', read one more character to identify '=' or '=='.
+Compile the modified code.
+Execute this evaluator program to verify your modification.
+./a.out
+(5 * 10 > 49 ) - 12 % 10 + 10 | 6
+15
+6. To exit the evaluator program, ctrl+c
+
