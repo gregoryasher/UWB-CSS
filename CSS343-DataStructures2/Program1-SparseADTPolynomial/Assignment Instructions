@@ -1,0 +1,273 @@
+A Sparse Implementation of ADT Polynomial 
+ 
+
+Purpose
+
+This programming assignment exercises dynamic memory allocation, pointer operations, and copy constructor design through designing a doubly-linked circular list with a dummy header. Using such a list, you will implement an ADT polynomial.
+
+ 
+
+ADT Polynomial
+
+The specification of our ADT polynomial has the following public functions:
+
+ 
+
+degree( )
+
+Returns the degree of a polynomial. For example, when p1 = 4x5 + 7x3 - x2 + 9, p1.degree( ) is 5.
+
+coefficient( power )
+
+Returns the coefficient of the xpower term. For example, when p1 = 4x5 + 7x3 - x2 + 9, p1.coefficient(3) is 7
+
+changeCoefficient( newCoefficient, power )
+
+Replaces the coefficient of the xpower term with newCoeffcient. For instance, p1.changeCoefficient(-3, 7) produces the polynomial p1 = -3x7 + 4x5 + 7x3 - x2 + 9
+
+arithmetic operations + and -
+
+Add two polynomials or subtract the 2nd polynomial from the 1st one. For instance, assuming p1 = 4x5 + 7x3 - x2 + 9 and p2 = 6x4 + 3x2 + 2x, then the answer of p1 + p2 must be 4x5 + 6x4 + 7x3 + 2x2 + 2x + 9. Note that you do not have to implement operations * and /.
+
+boolean comparison operators == and !=
+
+Returns true in == when corresponding terms of two given polynomial matches each other, otherwise false. Needless to say about !=. Note that >, >=, <, and <= are meaningless.
+
+assignment operators =, +=, -=
+
+Note that you need to take care of self-assignment when implementing =.
+
+output operator <<
+
+The output must have the form of cnx^n + cn-1x^(n-1) + ... + c1x + c0 For example, p1 = -3x7 + 4x5 + 7x3 - x2 + 9 should be printed out in the form of        -3x^7 + 4x^5 + 7x^3 - x^2 + 9. Note that you don't have to implement operator>>.
+
+ 
+
+A Sparse Polynomial Implementation Using A List
+
+The ADT polynomial can be implemented using a doubly-linked circular list that stores only the terms with nonzero coefficients. For example, you can represent the polynomial p1 = -3x7 + 4x3 + 9 as follows.
+
+   
+
+ polynomial.png
+
+ 
+
+ To implement the ADT polynomial with this list, you must add the following members in your polynomial class.
+
+default constructor
+
+When construct a Polynomial object without parameter, you should initialize the size as zero, and should construct a dummy header. Note that your polynomial is doubly-linked circular list.
+
+copy constructor
+
+Takes care of a deep copy of the original link representation.
+
+destructor
+
+Takes care of de-allocating all link nodes to the system.
+
+struct Term
+
+This structure must be defined as a class private struct and include double coeffocient and int power as well as prev and next pointers, each pointing to a previous and a next Term node
+
+insert( pos, newCoefficient, power )
+
+This private member function inserts a new Term node with newCoefficient and power just before the existing Term pointed by the pos pointer. The insert function will be used bychangeCoefficient to insert a new term.
+
+remove( pos )
+
+This private member function deletes the existing Term node pointed by the pos pointer. The remove function will be used by changeCoefficient to delete an existing term when its coefficient is changed in 0. In addition, it will be used by a destructor and the operator= to de-allocates all Term nodes.
+
+ 
+
+Here is the specification of your Polynomial class (polynomial.hPreview the documentView in a new window)
+
+ 
+
+ 
+
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Polynomial {
+
+  // Overloaded <<: prints Cn * x^n + Cn-1 * X^n-1 + ... C1 * X + C0
+
+  friend ostream& operator<<( ostream &output, const Polynomial& p );
+
+ 
+
+// Constructor: the default is a 0-degree polynomial with 0.0 coefficient
+
+ public:
+
+  // Member functions
+
+  Polynomial( );
+
+  Polynomial( const Polynomial& p );
+
+~Polynomial( );
+
+ 
+
+// returns the degree of a polynomial
+
+int degree( ) const;
+
+ 
+
+// returns the coefficient of the x^power term.
+
+double coefficient( const int power ) const; 
+
+ 
+
+// replaces the coefficient of the x^power term
+
+bool changeCoefficient( const double newCoefficient, const int power );
+
+ 
+
+  // Arithmetic operators
+
+  Polynomial operator+( const Polynomial& p ) const;
+
+  Polynomial operator-( const Polynomial& p ) const;
+
+ 
+
+  // Boolean comparison operators
+
+  bool operator==( const Polynomial& p ) const;
+
+  bool operator!=( const Polynomial& p ) const;
+
+ 
+
+  // Assignment operators
+
+  Polynomial& operator=( const Polynomial& p );
+
+  Polynomial& operator+=( const Polynomial& p );
+
+  Polynomial& operator-=( const Polynomial& p );
+
+ 
+
+ private:
+
+  struct Term {     // a term on the sparse polynomial
+
+    double coeff;   // the coefficient of each term
+
+    int power;      // the degree of each term
+
+    Term *prev;     // a pointer to the previous higher term
+
+    Term *next;     // a pointer to the next lower term
+
+  };
+
+  int size;         // # terms in the sparce polynomial
+
+  Term *head;       // a pointer to the doubly-linked circular list of
+
+                    // sparce polynomial
+
+ 
+
+  bool insert( Term* pos, const double newCoefficient, const int power );
+
+  bool remove( Term* pos );
+
+};
+
+ 
+
+ Statement of Work
+
+Design and implement the Polynomial class to match our specification outlined in polynomial.h. Name the implementation file as polynomial.cpp. The following is an example main() you in "driver.cppPreview the documentView in a new window".
+
+However, when turning in, you must code your own "PolynomialDriver.cpp" to test all your Polynomial number functions. Your assignments should have more comments and outputs than those samples. Proper comments should include all of the followings (at least): See Coding Standards for more details:
+
+what this method does
+preconditions
+postconditions
+ 
+
+Note that your Polynomial class is named with upper case, although your file name is lower case.
+
+ 
+
+//----------------<driver.cpp>-------------------------------------------------------
+
+ 
+
+#include "polynomial.h"
+
+#include <iostream>
+
+using namespace std;
+
+ 
+
+int main( )
+
+{
+
+  Polynomial p1;
+
+ 
+
+  p1.changeCoefficient( 1, 1 );
+
+  p1.changeCoefficient( 4, 4 );
+
+  p1.changeCoefficient( 2.2, 2 );
+
+  p1.changeCoefficient( -3.8, 3 );
+
+  cout << "p1 = " << p1 << endl;
+
+ 
+
+  p1.changeCoefficient( 0, 2 );
+
+  cout << "p1 = " << p1 << endl;
+
+ 
+
+  Polynomial p2 = p1;
+
+  p2.changeCoefficient( 9.5, 2 );
+
+  cout << "p1 = " << p1 << endl;
+
+  cout << "p2 = " << p2 << endl;
+
+ 
+
+  Polynomial p3 = p1 + p2;
+
+  cout << "p3 = " << p3 << endl;
+
+}
+
+ 
+
+//----------Sample Output:---------------------------------------------------------------
+
+p1 = 4x^4 + -3.8x^3 + 2.2x^2 + x
+p1 = 4x^4 + -3.8x^3 + x
+p1 = 4x^4 + -3.8x^3 + x
+p2 = 4x^4 + -3.8x^3 + 9.5x^2 + x
+p3 = 8x^4 + -7.6x^3 + 9.5x^2 + 2x
+
+===========================================================
