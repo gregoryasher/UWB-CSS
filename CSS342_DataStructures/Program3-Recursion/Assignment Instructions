@@ -1,0 +1,137 @@
+Purpose
+This programming assignment draws a complex fractal figure using recursive calls. You will derive a "Dragon" class from "Turtle" you got in "Lab 3", which draws Dragon curves by calling its methods recursively. Please refer the http://sierra.nmsu.edu/morandi/coursematerials/JurassicParkFractal.html (Links to an external site.)
+
+Turtle Graphics
+Review Lab3 if you are not clear about the Turtle class and its postscript outputs.
+
+ 
+
+Heighway Dragon Curves
+The Heighway dragon (also known as the Harter–Heighway dragon or the Jurassic Park dragon) was first investigated by NASA (Links to an external site.) physicists John Heighway, Bruce Banks, and William Harter. It was described by Martin Gardner (Links to an external site.) in his Scientific American (Links to an external site.) column Mathematical Games in 1967. Many of its properties were first published by Chandler Davis (Links to an external site.) and Donald Knuth. It appeared on the section title pages of the Michael Crichton novel Jurassic Park. Here are some examples of Dragon curves.
+
+ dragon.png
+
+          
+
+Construction of Dragon
+
+For simplicity, let’s focus on 2 levels of dragon curves.
+
+Assuming that Turtle is initially facing right, the following shows the sequence of drawing a level-1 right Dragon curve:
+
+Turn -90
+Draw a straight line
+Turn -90
+Draw a straight line
+right1.png
+
+ 
+
+Now, here is a level-1 curve left curve;
+
+Draw a straight line
+Turn 90
+Draw a straight line
+Turn 90
+ left1.png
+
+Similar to a level-1 curve, a level-2 curve has two types, left and right. The following sequence draws a level-2 right Dragon curve.
+
+Turn -90
+Draw a level-1 left curve
+Turn -90
+Draw a level-1 right curve 
+right2.png
+
+And a level-2 left Dragon curve;
+
+Draw a level-1 left curve
+Turn 90
+Draw a level-1 right curve
+Turn 90 
+ 
+
+left2.png
+
+Note that right-curve and left curve looks exactly same, but the order of drawing is different.
+
+Now, to go from a level-k to a level k+1, you need to convert each of line segments of level-1 curve into a level-k left or right curve.
+
+Statement of Work
+
+Derive the Dragon class from the Turtle using class inheritance. You must work on the Dragon class design by yourself. Note that Dragon is inherited from Turtle:
+
+class Dragon : public Turtle
+{
+...
+}
+This class must include two public methods, leftCurve and rightCurve, each drawing a level-k left and a level-k right Dragon curve. Thus, those two methods take two arguments, the depth of level and the length of each line segment. Use the following driver program to verify the correctness of your class design.
+
+
+#include "dragon.h"
+
+#include <iostream>
+
+using namespace std;
+
+ 
+#include "dragon.h"
+#include <iostream>
+using namespace std;
+ 
+int main( ) {
+  // right dragon at level 10
+  Dragon dragon10( 80, 360, 0 );
+  dragon10.rightCurve( 10, 6 );
+  // right dragon at level 9
+  Dragon dragon9( 360, 360, 0 );
+  dragon9.rightCurve( 9, 6 );
+
+  // right dragon at level 8
+  Dragon dragon8( 560, 360, 0 );
+  dragon8.rightCurve( 8, 6 );
+
+  // right dragon at level 7
+  Dragon dragon7( 120, 500, 0 );
+  dragon7.rightCurve( 7, 8 );
+ 
+  // right dragon at level 6
+  Dragon dragon6( 240, 500, 0 );
+  dragon6.rightCurve( 6, 8 );
+ 
+  // right dragon at level 5
+  Dragon dragon5( 360, 500, 0 );
+  dragon5.rightCurve( 5, 8 );
+ 
+  // right dragon at level 4
+  Dragon dragon4( 480, 500, 0 );
+  dragon4.rightCurve( 4, 8 );
+ 
+  // right dragon at level 3
+  Dragon dragon3( 60, 700, 0 );
+  dragon3.rightCurve( 3, 16 );
+ 
+  // right dragon at level 2
+
+ Dragon dragon2( 240, 700, 0 );  
+
+dragon2.rightCurve( 2, 16 );    
+
+ 
+
+// right dragon at level 1
+
+  Dragon dragon1( 420, 700, 0 );
+
+  dragon1.rightCurve( 1, 16 );
+
+}  
+
+To view and print out your result in Linux, follow the directions below:
+
+g++ *.cpp
+./a.out
+  ps2pdf output.ps output.pdf
+ 
+
+Windows users should view output.ps through Acrobat. Mac OS users can view it through preview.
